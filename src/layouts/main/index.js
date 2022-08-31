@@ -14,7 +14,6 @@ export default function MainLayout() {
         <Box>
           <Outlet />
         </Box>
-        <MainFooter />
       </Box>
     </>
   );
