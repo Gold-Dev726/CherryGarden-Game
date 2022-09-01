@@ -50,11 +50,19 @@ export default function Hero() {
   const [animItem, setAnimItem] = useState(1);
   const [flipCount, setFlipCount] = useState(0);
   const [initialized, setInitialized] = useState(true);
+  const [tap_audio1] = useState(new Audio("/sounds/tap1.mp3"));
+  const [tap_audio2] = useState(new Audio("/sounds/tap2.mp3"));
+  const [tap_audio3] = useState(new Audio("/sounds/tap3.mp3"));
+  const [btn_audio] = useState(new Audio("/sounds/button_tap.mp3"));
+  const [win_audio] = useState(new Audio("/sounds/win.mp3"));
+  const [lost_audio] = useState(new Audio("/sounds/lost.mp3"));
+
   const handleClick = (index) => {
     var temp = [...items];
     temp[index].flip = true;
     setItems(temp);
     setFlipCount(flipCount + 1);
+    tap_audio1.play();
   };
 
   const handleClaim = () => {
@@ -64,6 +72,7 @@ export default function Hero() {
     }
     setItems(temp);
     setInitialized(false);
+    lost_audio.play();
   };
 
   const handlePlayAgain = () => {
@@ -71,6 +80,7 @@ export default function Hero() {
     setFlipCount(0);
     setItems(Items);
     initializeGame();
+    btn_audio.play();
   };
 
   const initializeGame = async () => {
@@ -82,7 +92,7 @@ export default function Hero() {
     let rng = Math.floor(Math.random() * (1000 - 1 + 1)) + 1;
     let payout = 0;
     var tempItems = Items();
-    console.log(tempItems)
+    console.log(tempItems);
     console.log(rng);
     switch (true) {
       case rng >= 1 && rng <= 500:
@@ -174,6 +184,7 @@ export default function Hero() {
                       height: 64,
                       borderRadius: "50%",
                       background: "url(/images/coin.png)",
+                      backgroundSize: "100% 100%",
                       cursor: "pointer",
                       transition: "all 0.5s ease",
                       overflow: "hidden",
@@ -209,8 +220,17 @@ export default function Hero() {
             {!initialized && (
               <Button
                 onClick={handlePlayAgain}
-                variant="contained"
-                sx={{ position: "absolute", top: 10, right: 20 }}
+                sx={{
+                  position: "absolute",
+                  top: 5,
+                  right: 20,
+                  background: "url(/images/btn_bg.png)",
+                  backgroundSize: "100% 100%",
+                  height: 52,
+                  minWidth: 160,
+                  color: "black",
+                  fontSize: 20,
+                }}
               >
                 Play again
               </Button>
@@ -218,8 +238,17 @@ export default function Hero() {
             {flipCount >= 4 && (
               <Button
                 onClick={handleClaim}
-                variant="contained"
-                sx={{ position: "absolute", bottom: 10, right: 20 }}
+                sx={{
+                  position: "absolute",
+                  bottom: 5,
+                  right: 20,
+                  background: "url(/images/btn_bg.png)",
+                  backgroundSize: "100% 100%",
+                  height: 52,
+                  minWidth: 160,
+                  color: "black",
+                  fontSize: 20,
+                }}
               >
                 Scratch All
               </Button>
